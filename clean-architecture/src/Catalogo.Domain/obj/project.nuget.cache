@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "/RnMUBMMM6Q=",
+  "success": true,
+  "projectFilePath": "D:\\Cursos\\slice-architecture\\src\\Catalogo.Domain\\Catalogo.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\luist\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

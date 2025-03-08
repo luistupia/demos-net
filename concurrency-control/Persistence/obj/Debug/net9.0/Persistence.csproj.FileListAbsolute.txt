@@ -1,0 +1,17 @@
+D:\Cursos\DemosNet\concurrency-control\Persistence\bin\Debug\net9.0\Persistence.deps.json
+D:\Cursos\DemosNet\concurrency-control\Persistence\bin\Debug\net9.0\Persistence.runtimeconfig.json
+D:\Cursos\DemosNet\concurrency-control\Persistence\bin\Debug\net9.0\Persistence.dll
+D:\Cursos\DemosNet\concurrency-control\Persistence\bin\Debug\net9.0\Persistence.pdb
+D:\Cursos\DemosNet\concurrency-control\Persistence\bin\Debug\net9.0\Domain.dll
+D:\Cursos\DemosNet\concurrency-control\Persistence\bin\Debug\net9.0\Domain.pdb
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.csproj.AssemblyReference.cache
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.AssemblyInfoInputs.cache
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.AssemblyInfo.cs
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.csproj.CoreCompileInputs.cache
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persiste.61C28332.Up2Date
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.dll
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\refint\Persistence.dll
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.pdb
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\Persistence.genruntimeconfig.cache
+D:\Cursos\DemosNet\concurrency-control\Persistence\obj\Debug\net9.0\ref\Persistence.dll
