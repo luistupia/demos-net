@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Cursos\\slice-architecture\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj": {}
+    "D:\\Cursos\\DemosNet\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj": {}
   },
   "projects": {
-    "D:\\Cursos\\slice-architecture\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj": {
+    "D:\\Cursos\\DemosNet\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Cursos\\slice-architecture\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj",
+        "projectUniqueName": "D:\\Cursos\\DemosNet\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj",
         "projectName": "ShoppingCart.Api",
-        "projectPath": "D:\\Cursos\\slice-architecture\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj",
+        "projectPath": "D:\\Cursos\\DemosNet\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\ShoppingCart.Api.csproj",
         "packagesPath": "C:\\Users\\luist\\.nuget\\packages\\",
-        "outputPath": "D:\\Cursos\\slice-architecture\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\obj\\",
+        "outputPath": "D:\\Cursos\\DemosNet\\vert-slice-arch\\ShoppinCart\\ShoppingCart.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,9 +50,31 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )"
+            },
+            "EFCore.NamingConventions": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.3, )"
             },
             "NSwag.AspNetCore": {
               "target": "Package",
@@ -65,6 +87,10 @@
             "Polly.Extensions": {
               "target": "Package",
               "version": "[8.5.2, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[9.0.3, )"
             }
           },
           "imports": [
@@ -86,7 +112,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

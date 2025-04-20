@@ -7,11 +7,21 @@ namespace ShoppingCart.Api.Shared.Networking.CatalogoApi;
 
 public sealed class CatalogoApiCliente(CatalogoApiService catalogoApiService,
     ILoggerFactory loggerFactory,
+    HttpClient httpClient,
     ResiliencePipelineProvider<string> pipelineProvider) : ICatalogoApiCliente
 {
-    public Task<Catalogo> GetProductByCodeAsync(string code, CancellationToken cancellationToken)
+    public async Task<Catalogo?> GetProductByCodeAsync(string code, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var logger = loggerFactory.CreateLogger("RetryLog");
+         var policy = Policy.Handle<ApplicationException>()
+             .WaitAndRetryAsync(3, retryAttempt =>
+             {
+                 logger.LogError($"Retried attempt {retryAttempt}");
+                 return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
+             });
+
+        var product = await policy.ExecuteAsync(() => catalogoApiService.GetProductByCodeAsync(code,cancellationToken));
+        return product;
     }
 
     public async Task<IEnumerable<Catalogo>> GetProductsAsync(CancellationToken cancellationToken)
@@ -31,4 +41,6 @@ public sealed class CatalogoApiCliente(CatalogoApiService catalogoApiService,
         
         return  products;
     }
+    
+     
 }

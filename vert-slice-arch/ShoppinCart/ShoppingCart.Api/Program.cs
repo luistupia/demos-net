@@ -1,12 +1,14 @@
 using Polly;
 using Polly.Fallback;
+using ShoppingCart.Api;
 using ShoppingCart.Api.Features.Catalogo;
 using ShoppingCart.Api.Shared.Domain.Models;
+using ShoppingCart.Api.Shared.Extensions;
 using ShoppingCart.Api.Shared.Networking.CatalogoApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ICatalogoApiCliente, CatalogoApiCliente>();
+
 builder.Services.AddHttpClient<CatalogoApiService>((serviceProvider, httpClient) =>
 {
     httpClient.BaseAddress = new Uri("https://localhost:5001");
@@ -25,9 +27,10 @@ builder.Services.AddResiliencePipeline<string,IEnumerable<Catalogo>>("catalogo-p
     });
 
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.RegisterApplicationServices();
+builder.Services.RegisterPersistenceServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -47,9 +50,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
-
 GetCatalogo.AddEndpoints(app);
+SearchProduct.AddEndpoint(app);
+app.ApplyMigrations();
 
 app.UseHttpsRedirection();
 
