@@ -28,7 +28,7 @@ while (true)
 
     try
     {
-        await channel.BasicPublishAsync("", "", line);
+        await channel.BasicPublishAsync("", "log", line);
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"[Encolado] {line}");
         Console.ResetColor();

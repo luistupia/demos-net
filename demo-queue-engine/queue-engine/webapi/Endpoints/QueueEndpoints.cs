@@ -10,6 +10,7 @@ public abstract class QueueEndpoints
     public static void AddEndpoints(WebApplication app)
     {
         var logger = app.Services.GetRequiredService<ILogger<QueueEndpoints>>();
+        const string Default = "default";
         
         app.MapGet("/", () => Results.Ok("Ok"));
         
@@ -17,12 +18,17 @@ public abstract class QueueEndpoints
         {
             try
             {
-                var msg = new QueueMessage
-                {
+                var category = string.IsNullOrWhiteSpace(request.Category) ? Default : request.Category!;
+                var tag = string.IsNullOrWhiteSpace(request.Tag) ? Default : request.Tag!;
+    
+                var msg = new QueueMessage {
+                    Category  = category,
+                    Tag       = tag,
+                    Payload   = request.Payload,
+                    CreatedAt = DateTime.UtcNow,
                     Id = Guid.NewGuid().ToString(),
-                    Payload = request.Payload,
-                    CreatedAt = DateTime.UtcNow
                 };
+                
                 db.QueueMessages.Add(msg);
                 await db.SaveChangesAsync();
 
@@ -36,12 +42,19 @@ public abstract class QueueEndpoints
             }
         });
         
-        app.MapGet("/dequeue", async (AppDbContext db) =>
+        app.MapGet("/dequeue", async (string? category, string? tag,AppDbContext db) =>
         {
-            var msg = await db.QueueMessages
-                .Where(m => m.Status == "Pending")
-                .OrderBy(m => m.CreatedAt)
-                .FirstOrDefaultAsync();
+            var cat = string.IsNullOrWhiteSpace(category) ? Default : category!;
+            var tg  = string.IsNullOrWhiteSpace(tag)      ? Default : tag!;
+
+            var query = db.QueueMessages
+                          .Where(m => m.Status == "Pending" && m.Category == cat);
+
+            if (!string.IsNullOrEmpty(tg))
+                query = query.Where(m => m.Tag == tg);
+
+            var msg = await query.OrderBy(m => m.CreatedAt)
+                                 .FirstOrDefaultAsync();
 
             if (msg is null)
                 return Results.NoContent();
@@ -51,7 +64,7 @@ public abstract class QueueEndpoints
             return Results.Ok(new { msg.Id, msg.Payload });
         });
         
-        app.MapPost("/ack/{id}", async (string id, AppDbContext db) =>
+        app.MapPost("/ack/{id}", async (string id,bool autoDelete, AppDbContext db) =>
         {
             var msg = await db.QueueMessages
                 .FirstOrDefaultAsync(m => m.Id == id && m.Status == "Processing");
@@ -59,7 +72,11 @@ public abstract class QueueEndpoints
             if (msg is null)
                 return Results.NotFound();
 
-            //Eliminar la cola de la Bd, por el momento se deja como Completado.
+            if (autoDelete)
+                db.QueueMessages.Remove(msg);
+            else
+                msg.Status = "Completed";
+
             msg.Status = "Completed";
             await db.SaveChangesAsync();
             return Results.Ok();

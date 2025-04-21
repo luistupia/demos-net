@@ -12,15 +12,15 @@ internal class Model(HttpClient http) : IModel
     /// <summary>
     /// Publica un mensaje en el exchange especificado con la clave de enrutamiento y el contenido proporcionados.
     /// </summary>
-    /// <param name="exchange">El nombre del exchange al que se publicará el mensaje.</param>
-    /// <param name="routingKey">La clave de enrutamiento que se usará para la entrega del mensaje.</param>
+    /// <param name="category">El nombre del exchange al que se publicará el mensaje.</param>
+    /// <param name="tag">La clave de enrutamiento que se usará para la entrega del mensaje.</param>
     /// <param name="payload">El contenido del mensaje a publicar.</param>
     /// <exception cref="QueueEngineException">
     /// Se lanza si ocurre un error de red o un error inesperado durante el proceso de publicación.
     /// </exception>
-    public void BasicPublish(string exchange, string routingKey, string payload)
+    public void BasicPublish(string category, string tag, string payload)
     {
-        PublishAsync(exchange,routingKey, payload)
+        PublishAsync(category,tag, payload)
             .GetAwaiter()
             .GetResult();
     }
@@ -28,41 +28,41 @@ internal class Model(HttpClient http) : IModel
     /// <summary>
     /// Publica un mensaje asincorinicamente en el exchange especificado con la clave de enrutamiento y el contenido proporcionados.
     /// </summary>
-    /// <param name="exchange">El nombre del exchange al que se publicará el mensaje.</param>
-    /// <param name="routingKey">La clave de enrutamiento que se usará para la entrega del mensaje.</param>
+    /// <param name="category">El nombre del exchange al que se publicará el mensaje.</param>
+    /// <param name="tag">La clave de enrutamiento que se usará para la entrega del mensaje.</param>
     /// <param name="payload">El contenido del mensaje a publicar.</param>
     /// <exception cref="QueueEngineException">
     /// Se lanza si ocurre un error de red o un error inesperado durante el proceso de publicación.
     /// </exception>
-    public Task BasicPublishAsync(string exchange, string routingKey, string payload)
+    public Task BasicPublishAsync(string category, string tag, string payload)
     {
-        return PublishAsync(exchange, routingKey, payload);
+        return PublishAsync(category, tag, payload);
     }
     
     /// <summary>
     /// Versión asíncrona que expone el loop de consumo.
     /// </summary>
     public Task BasicConsumeAsync(
-        string queue,
+        string category, string tag,
         bool autoAck,
         Func<Message, Task> onMessage,
         CancellationToken cancellationToken = default)
     {
-        return ConsumeLoopAsync(autoAck, onMessage, cancellationToken);
+        return ConsumeLoopAsync(category,tag,autoAck, onMessage, cancellationToken);
     }
 
     /// <summary>
     /// Versión sincrónica que lanza el loop en background.
     /// </summary>
-    public void BasicConsume(string queue, bool autoAck, Action<Message> onMessage)
+    public void BasicConsume(string category, string tag, bool autoAck, Action<Message> onMessage)
     {
         _cts = new CancellationTokenSource();
 
-        // Dispara el loop en background, adaptando Action<MessageDto> a Func<MessageDto, Task>
         _ = ConsumeLoopAsync(
+            category,
+            tag,
             autoAck,
-            msg =>
-            {
+            msg => {
                 onMessage(msg);
                 return Task.CompletedTask;
             },
@@ -103,6 +103,7 @@ internal class Model(HttpClient http) : IModel
     /// Loop común que consulta /dequeue, maneja autoAck y llama al callback.
     /// </summary>
     private async Task ConsumeLoopAsync(
+        string category, string tag,
         bool autoAck,
         Func<Message, Task> onMessage,
         CancellationToken ct)
@@ -114,7 +115,10 @@ internal class Model(HttpClient http) : IModel
         {
             try
             {
-                var resp = await http.GetAsync("/dequeue", ct);
+                var url = $"/dequeue?category={Uri.EscapeDataString(category)}" +
+                          $"&tag={Uri.EscapeDataString(tag)}";
+                
+                var resp = await http.GetAsync(url, ct);
                 if (resp.StatusCode == HttpStatusCode.NoContent)
                 {
                     await Task.Delay(emptyDelayMs, ct);
@@ -127,12 +131,12 @@ internal class Model(HttpClient http) : IModel
                     continue;
 
                 if (autoAck)
-                    await AcknowledgeAsync(msg.Id, ct);
+                    await AcknowledgeAsync(autoAck,msg.Id, ct);
 
                 await onMessage(msg);
 
                 if (!autoAck)
-                    await AcknowledgeAsync(msg.Id, ct);
+                    await AcknowledgeAsync(autoAck,msg.Id, ct);
             }
             catch (HttpRequestException ex)
             {
@@ -159,9 +163,9 @@ internal class Model(HttpClient http) : IModel
     /// <summary>
     /// Extraemos el POST /ack para no repetir código.
     /// </summary>
-    private Task AcknowledgeAsync(string messageId, CancellationToken ct)
+    private Task AcknowledgeAsync(bool autoAck,string messageId, CancellationToken ct)
     {
-        return http.PostAsync($"/ack/{messageId}", null, ct)
+        return http.PostAsync($"/ack/{messageId}?autoDelete={autoAck}", null, ct)
             .ContinueWith(t =>
             {
                 if (t.IsFaulted)
@@ -170,11 +174,11 @@ internal class Model(HttpClient http) : IModel
             }, ct);
     }
 
-    private async Task PublishAsync(string exchange, string routingKey, string payload)
+    private async Task PublishAsync(string category, string tag, string payload)
     {
         try
         {
-            var dto = new QueuePayload(payload);
+            var dto = new QueuePayload(category,tag,payload);
             var resp = await http.PostAsJsonAsync("/enqueue", dto);
             resp.EnsureSuccessStatusCode();
         }

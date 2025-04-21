@@ -1,3 +1,7 @@
 ﻿namespace queue.client.Models;
 
-public record QueuePayload(string Payload);
+public record QueuePayload(
+  string? Category,
+  string? Tag,
+  string  Payload
+);

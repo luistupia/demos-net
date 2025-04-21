@@ -22,8 +22,9 @@ try
 {
     var consumingTask = channel
         .BasicConsumeAsync(
-            queue: "",
-            autoAck: false,
+            category: "",
+            tag:"log",
+            autoAck: true,
             onMessage: async msg =>
             {
                 Console.WriteLine($"[{msg.Id}] {msg.Payload}");
