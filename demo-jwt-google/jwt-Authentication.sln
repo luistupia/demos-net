@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Api", "Authentication.Api\Authentication.Api.csproj", "{4364E065-A8BD-4814-BEA4-B230BC8E07E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Domain", "Authentication.Domain\Authentication.Domain.csproj", "{51D85006-9CD8-4481-B11A-EFF16CF68722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Application", "Authentication.Application\Authentication.Application.csproj", "{39065484-A8D5-44C1-A074-A0FAA732579C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Infraestructure", "Authentication.Infraestructure\Authentication.Infraestructure.csproj", "{2234E85B-376D-4958-8256-6F923A7AF79E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4364E065-A8BD-4814-BEA4-B230BC8E07E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4364E065-A8BD-4814-BEA4-B230BC8E07E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4364E065-A8BD-4814-BEA4-B230BC8E07E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4364E065-A8BD-4814-BEA4-B230BC8E07E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51D85006-9CD8-4481-B11A-EFF16CF68722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51D85006-9CD8-4481-B11A-EFF16CF68722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51D85006-9CD8-4481-B11A-EFF16CF68722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51D85006-9CD8-4481-B11A-EFF16CF68722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39065484-A8D5-44C1-A074-A0FAA732579C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39065484-A8D5-44C1-A074-A0FAA732579C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39065484-A8D5-44C1-A074-A0FAA732579C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39065484-A8D5-44C1-A074-A0FAA732579C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2234E85B-376D-4958-8256-6F923A7AF79E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2234E85B-376D-4958-8256-6F923A7AF79E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2234E85B-376D-4958-8256-6F923A7AF79E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2234E85B-376D-4958-8256-6F923A7AF79E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
